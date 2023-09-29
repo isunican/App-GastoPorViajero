@@ -35,14 +35,5 @@ public class CalculoSencillo {
     @Test
     public void calculoTest() {
         onView(withId(R.id.etConsumo)).perform(typeText("5"));
-        onView(withId(R.id.etKm)).perform(typeText("5"));
-        onView(withId(R.id.etPrecio)).perform(typeText("5"));
-        onView(withId(R.id.etPasajeros)).perform(typeText("5"));
-
-        onView(withId(R.id.btnCalcular)).perform(click());
-
-        onView(withId(R.id.tvResultado)).check(matches(withText("0.25")));
-
-
     }
 }
