@@ -1,13 +1,13 @@
 plugins {
     id 'com.android.application'
-    id "org.sonarqube" version "4.0.0.2929"
+    id "org.sonarqube" version "5.1.0.4882"
     id 'jacoco'
 }
 
 apply plugin: "jacoco"
 
 jacoco {
-    toolVersion = '0.8.10'
+    toolVersion = '0.8.12'
 }
 
 tasks.withType(Test) {
@@ -25,9 +25,8 @@ tasks.register('jacocoTestReport', JacocoReport) {
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
     def mainSrc = "$project.projectDir/src/main/java"
-    // Nota: La ruta de las clases compiladas puede cambiar en versiones modernas de AGP.
-    // Esta ruta es para versiones más antiguas. Si falla, podría necesitar ajuste.
-    def javaTree = fileTree(dir: "$project.buildDir/intermediates/javac/debug/classes", excludes: fileFilter)
+    // Nota: La ruta de las clases compiladas puede cambiar dependiendo de la versión de AGP usada.
+    def javaTree = fileTree(dir: "$project.buildDir/intermediates/javac/debug/compileDebugJavaWithJavac", excludes: fileFilter)
 
     sourceDirectories.setFrom(files([mainSrc]))
     classDirectories.setFrom(files([javaTree]))
