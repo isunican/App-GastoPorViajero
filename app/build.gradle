@@ -15,7 +15,8 @@ tasks.withType(Test) {
     jacoco.excludes = ['jdk.internal.*'] // needed to support roboelectric with jacoco
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+tasks.register('jacocoTestReport', JacocoReport) {
+    dependsOn 'testDebugUnitTest'
 
     reports {
         xml.required = true
@@ -24,6 +25,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
     def mainSrc = "$project.projectDir/src/main/java"
+    // Nota: La ruta de las clases compiladas puede cambiar en versiones modernas de AGP.
+    // Esta ruta es para versiones más antiguas. Si falla, podría necesitar ajuste.
     def javaTree = fileTree(dir: "$project.buildDir/intermediates/javac/debug/classes", excludes: fileFilter)
 
     sourceDirectories.setFrom(files([mainSrc]))
@@ -35,7 +38,7 @@ sonar {
     properties {
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.organization", "isuc"
-        property "sonar.login", "120537998e2c122476f30cade8d4a25865210fa6"
+        property "sonar.token", "120537998e2c122476f30cade8d4a25865210fa6"
         property "sonar.projectKey", "GastoPorViajero-Juan"
         property "sonar.projectName", "GastoPorViajero-Juan"
 
@@ -72,7 +75,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
-    namespace 'com.isunican.gastoporviajero'
+    namespace = 'com.isunican.gastoporviajero'
 }
 
 dependencies {
